@@ -170,6 +170,7 @@ return [
         /*
          * Application Service Providers...
          */
+        App\Providers\SendEmailServiceProvider::class,
         App\Providers\UserServiceProvider::class,
         App\Providers\ContactServiceProvider::class,
         App\Providers\LinkServiceProvider::class,

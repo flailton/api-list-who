@@ -24,8 +24,12 @@ class ContactController extends Controller
     public function index()
     {
         try {
-            $response['body'] = $this->contactService->all();
-            $response['status'] = (!empty($response['status']) ? $response['status'] : 200);
+            $result = $this->contactService->all();
+            $response['body'] = $result;
+            if(!empty($result['errors'])){
+                $response['body'] = $result['errors'];
+            }
+            $response['status'] = (!empty($result['status']) ? $result['status'] : 200);
         } catch (\Throwable $ex) {
             $response['body']['message'] = $ex->getMessage();
             $response['status'] = 404;
@@ -43,8 +47,12 @@ class ContactController extends Controller
             $attributes = $request->all();
             $attributes['user_id'] = session('user')->id;
 
-            $response['body'] = $this->contactService->store($attributes);
-            $response['status'] = (!empty($response['status']) ? $response['status'] : 201);
+            $result = $this->contactService->store($attributes);
+            $response['body'] = $result;
+            if(!empty($result['errors'])){
+                $response['body'] = $result['errors'];
+            }
+            $response['status'] = (!empty($result['status']) ? $result['status'] : 201);
         } catch (\Throwable $ex) {
             $response['body']['message'] = $ex->getMessage();
             if ($ex instanceof ValidationException) {
@@ -59,8 +67,12 @@ class ContactController extends Controller
     public function show($id)
     {
         try {
-            $response['body'] = $this->contactService->show($id);
-            $response['status'] = (!empty($response['status']) ? $response['status'] : 200);
+            $result = $this->contactService->show($id);
+            $response['body'] = $result;
+            if(!empty($result['errors'])){
+                $response['body'] = $result['errors'];
+            }
+            $response['status'] = (!empty($result['status']) ? $result['status'] : 200);
         } catch (\Throwable $ex) {
             $response['body']['message'] = $ex->getMessage();
             $response['status'] = 404;
@@ -82,8 +94,12 @@ class ContactController extends Controller
             $attributes = $request->all();
             $attributes['user_id'] = session('user')->id;
 
-            $response['body'] = $this->contactService->update($attributes, $id);
-            $response['status'] = (!empty($response['status']) ? $response['status'] : 200);
+            $result = $this->contactService->update($attributes, $id);
+            $response['body'] = $result;
+            if(!empty($result['errors'])){
+                $response['body'] = $result['errors'];
+            }
+            $response['status'] = (!empty($result['status']) ? $result['status'] : 200);
         } catch (\Throwable $ex) {
             $response['body']['message'] = $ex->getMessage();
             if ($ex instanceof ValidationException) {
@@ -98,8 +114,12 @@ class ContactController extends Controller
     public function destroy($id)
     {
         try {
-            $response['body'] = $this->contactService->destroy($id);
-            $response['status'] = (!empty($response['status']) ? $response['status'] : 200);
+            $result = $this->contactService->destroy($id);
+            $response['body'] = $result;
+            if(!empty($result['errors'])){
+                $response['body'] = $result['errors'];
+            }
+            $response['status'] = (!empty($result['status']) ? $result['status'] : 200);
         } catch (\Throwable $ex) {
             $response['body']['message'] = $ex->getMessage();
             $response['status'] = 404;

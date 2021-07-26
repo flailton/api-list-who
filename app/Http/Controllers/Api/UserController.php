@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Interfaces\IUserService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -23,8 +24,12 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $response['body'] = $this->userService->all();
-            $response['status'] = (!empty($response['status']) ? $response['status'] : 200);
+            $result = $this->userService->all();
+            $response['body'] = $result;
+            if(!empty($result['errors'])){
+                $response['body'] = $result['errors'];
+            }
+            $response['status'] = (!empty($result['status']) ? $result['status'] : 200);
         } catch (\Throwable $ex) {
             $response['body']['message'] = $ex->getMessage();
             $response['status'] = 404;
@@ -39,10 +44,15 @@ class UserController extends Controller
         try {
             $request->validate($this->rules(), $this->messages());
 
-            $response['body'] = $this->userService->store($request->all());
-            $response['status'] = (!empty($response['status']) ? $response['status'] : 201);
+            $result = $this->userService->store($request->all());
+            $response['body'] = $result;
+            if(!empty($result['errors'])){
+                $response['body'] = $result['errors'];
+            }
+            $response['status'] = (!empty($result['status']) ? $result['status'] : 201);
         } catch (\Throwable $ex) {
             $response['body']['message'] = $ex->getMessage();
+
             if ($ex instanceof ValidationException) {
                 $response['body']['errors'] = $ex->errors();
             }
@@ -55,8 +65,12 @@ class UserController extends Controller
     public function show($id)
     {
         try {
-            $response['body'] = $this->userService->show($id);
-            $response['status'] = (!empty($response['status']) ? $response['status'] : 200);
+            $result = $this->userService->show($id);
+            $response['body'] = $result;
+            if(!empty($result['errors'])){
+                $response['body'] = $result['errors'];
+            }
+            $response['status'] = (!empty($result['status']) ? $result['status'] : 200);
         } catch (\Throwable $ex) {
             $response['body']['message'] = $ex->getMessage();
             $response['status'] = 404;
@@ -75,8 +89,12 @@ class UserController extends Controller
 
             $request->validate($this->rules($id, $sometimes), $this->messages());
 
-            $response['body'] = $this->userService->update($request->all(), $id);
-            $response['status'] = (!empty($response['status']) ? $response['status'] : 200);
+            $result = $this->userService->update($request->all(), $id);
+            $response['body'] = $result;
+            if(!empty($result['errors'])){
+                $response['body'] = $result['errors'];
+            }
+            $response['status'] = (!empty($result['status']) ? $result['status'] : 200);
         } catch (\Throwable $ex) {
             $response['body']['message'] = $ex->getMessage();
             if ($ex instanceof ValidationException) {
@@ -91,8 +109,12 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            $response['body'] = $this->userService->destroy($id);
-            $response['status'] = (!empty($response['status']) ? $response['status'] : 200);
+            $result = $this->userService->destroy($id);
+            $response['body'] = $result;
+            if(!empty($result['errors'])){
+                $response['body'] = $result['errors'];
+            }
+            $response['status'] = (!empty($result['status']) ? $result['status'] : 200);
         } catch (\Throwable $ex) {
             $response['body']['message'] = $ex->getMessage();
             $response['status'] = 404;
@@ -104,9 +126,9 @@ class UserController extends Controller
     private function rules($id = '', $sometimes = '')
     {
         return [
-            'nome' => 'required|min:2' . $sometimes,
-            'cpf' => 'required|email|unique:users,email,' . $id . $sometimes,
-            'data_nascimento' => 'required|min:4|max:32' . $sometimes
+            'name' => 'required|min:2' . $sometimes,
+            'email' => 'required|email|unique:users,email,' . $id . $sometimes,
+            'password' => 'required|min:4|max:32' . $sometimes
         ];
     }
 

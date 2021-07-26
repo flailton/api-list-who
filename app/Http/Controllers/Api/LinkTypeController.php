@@ -22,8 +22,12 @@ class LinkTypeController extends Controller
     public function index()
     {
         try {
-            $response['body'] = $this->linkTypeService->all();
-            $response['status'] = (!empty($response['status']) ? $response['status'] : 200);
+            $result = $this->linkTypeService->all();
+            $response['body'] = $result;
+            if(!empty($result['errors'])){
+                $response['body'] = $result['errors'];
+            }
+            $response['status'] = (!empty($result['status']) ? $result['status'] : 200);
         } catch (\Throwable $ex) {
             $response['body']['message'] = $ex->getMessage();
             $response['status'] = 404;

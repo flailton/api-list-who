@@ -15,14 +15,16 @@ class SendEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private $send_mail;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($send_mail = '')
     {
-        //
+        $this->send_mail = $send_mail;
     }
 
     /**
