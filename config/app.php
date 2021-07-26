@@ -165,10 +165,17 @@ return [
         /*
          * Package Service Providers...
          */
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
+        App\Providers\UserServiceProvider::class,
+        App\Providers\ContactServiceProvider::class,
+        App\Providers\LinkServiceProvider::class,
+        App\Providers\PhoneServiceProvider::class,
+        App\Providers\PhoneTypeServiceProvider::class,
+        App\Providers\LinkTypeServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
