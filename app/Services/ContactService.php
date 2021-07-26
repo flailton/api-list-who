@@ -6,7 +6,7 @@ use App\Interfaces\IContactRepository;
 use App\Interfaces\IContactService;
 use App\Interfaces\ILinkService;
 use App\Interfaces\IPhoneService;
-//use App\Interfaces\ISendEmailService;
+use App\Interfaces\ISendEmailService;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -15,13 +15,13 @@ class ContactService implements IContactService
     private IContactRepository $contactRepository;
     private ILinkService $linkService;
     private IPhoneService $phoneService;
-    private SendEmailService $sendEmailService;
+    private ISendEmailService $sendEmailService;
 
     public function __construct(
         IContactRepository $contactRepository,
         ILinkService $linkService,
         IPhoneService $phoneService,
-        SendEmailService $sendEmailService
+        ISendEmailService $sendEmailService
     ) {
         $this->contactRepository = $contactRepository;
         $this->linkService = $linkService;

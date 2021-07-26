@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\Jobs\SendEmailJob;
-//use App\Interfaces\ISendEmailService;
+use App\Interfaces\ISendEmailService;
 
-class SendEmailService //implements ISendEmailService
+class SendEmailService implements ISendEmailService
 {
     private SendEmailJob $sendMailJob;
 
@@ -21,6 +21,6 @@ class SendEmailService //implements ISendEmailService
      */
     public function send(string $send_mail)
     {
-        SendEmailJob::dispatch($send_mail);
+        $this->sendMailJob->dispatch($send_mail);
     }
 }

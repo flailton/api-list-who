@@ -40,9 +40,9 @@ class ContactServiceProvider extends ServiceProvider
             ->needs('App\Interfaces\IPhoneService')
             ->give('App\Services\PhoneService');
 
-        // $this->app->when('App\Services\ContactService')
-        //     ->needs('App\Interfaces\ISendEmailService')
-        //     ->give('App\Services\SendEmailService');
+        $this->app->when('App\Services\ContactService')
+            ->needs('App\Interfaces\ISendEmailService')
+            ->give('App\Services\SendEmailService');
 
         $this->app->when('App\Http\Controllers\Api\ContactController')
             ->needs('App\Interfaces\IContactService')
